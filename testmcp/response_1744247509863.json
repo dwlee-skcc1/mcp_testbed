@@ -1,0 +1,328 @@
+{
+  "response": {
+    "messages": [
+      {
+        "content": "what's (3 + 5) x 12?",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "human",
+        "name": null,
+        "id": "9771e78d-ef1d-4d06-88a4-b792fbfd7c0d",
+        "example": false
+      },
+      {
+        "content": "",
+        "additional_kwargs": {
+          "tool_calls": [
+            {
+              "id": "call_XvpSkEnyA7BT8PzFqb7e5sRI",
+              "function": {
+                "arguments": "{\"a\": 3, \"b\": 5}",
+                "name": "add"
+              },
+              "type": "function"
+            },
+            {
+              "id": "call_W5LNZnnoCLQLGkNaDEs76MP2",
+              "function": {
+                "arguments": "{\"a\": 8, \"b\": 12}",
+                "name": "multiply"
+              },
+              "type": "function"
+            }
+          ],
+          "refusal": null
+        },
+        "response_metadata": {
+          "token_usage": {
+            "completion_tokens": 51,
+            "prompt_tokens": 77,
+            "total_tokens": 128,
+            "completion_tokens_details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": 0,
+              "cached_tokens": 0
+            }
+          },
+          "model_name": "gpt-4o-2024-11-20",
+          "system_fingerprint": "fp_ee1d74bde0",
+          "id": "chatcmpl-BKakF87LrWEh6izq8fMnr3GPRoNlX",
+          "finish_reason": "tool_calls",
+          "logprobs": null,
+          "content_filter_results": {}
+        },
+        "type": "ai",
+        "name": null,
+        "id": "run-9d399497-8a87-4ee2-80c5-b901b17bf93c-0",
+        "example": false,
+        "tool_calls": [
+          {
+            "name": "add",
+            "args": {
+              "a": 3,
+              "b": 5
+            },
+            "id": "call_XvpSkEnyA7BT8PzFqb7e5sRI",
+            "type": "tool_call"
+          },
+          {
+            "name": "multiply",
+            "args": {
+              "a": 8,
+              "b": 12
+            },
+            "id": "call_W5LNZnnoCLQLGkNaDEs76MP2",
+            "type": "tool_call"
+          }
+        ],
+        "invalid_tool_calls": [],
+        "usage_metadata": {
+          "input_tokens": 77,
+          "output_tokens": 51,
+          "total_tokens": 128,
+          "input_token_details": {
+            "audio": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "audio": 0,
+            "reasoning": 0
+          }
+        }
+      },
+      {
+        "content": "Error: ClosedResourceError()\n Please fix your mistakes.",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "tool",
+        "name": "add",
+        "id": "e5da4f88-2b21-403a-ac92-aa249f895f89",
+        "tool_call_id": "call_XvpSkEnyA7BT8PzFqb7e5sRI",
+        "artifact": null,
+        "status": "error"
+      },
+      {
+        "content": "Error: ClosedResourceError()\n Please fix your mistakes.",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "tool",
+        "name": "multiply",
+        "id": "83b0e30a-9fb4-4d1c-90e7-df33abf6398c",
+        "tool_call_id": "call_W5LNZnnoCLQLGkNaDEs76MP2",
+        "artifact": null,
+        "status": "error"
+      },
+      {
+        "content": "",
+        "additional_kwargs": {
+          "tool_calls": [
+            {
+              "id": "call_ZCuoQawmNbsxJammcIEEFSDZ",
+              "function": {
+                "arguments": "{\"a\":3,\"b\":5}",
+                "name": "add"
+              },
+              "type": "function"
+            }
+          ],
+          "refusal": null
+        },
+        "response_metadata": {
+          "token_usage": {
+            "completion_tokens": 18,
+            "prompt_tokens": 164,
+            "total_tokens": 182,
+            "completion_tokens_details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": 0,
+              "cached_tokens": 0
+            }
+          },
+          "model_name": "gpt-4o-2024-11-20",
+          "system_fingerprint": "fp_ee1d74bde0",
+          "id": "chatcmpl-BKakGtUP6NFduc2cGcnekvp8egtm5",
+          "finish_reason": "tool_calls",
+          "logprobs": null,
+          "content_filter_results": {}
+        },
+        "type": "ai",
+        "name": null,
+        "id": "run-9037d4b7-4156-4a71-b7c1-948358992c6c-0",
+        "example": false,
+        "tool_calls": [
+          {
+            "name": "add",
+            "args": {
+              "a": 3,
+              "b": 5
+            },
+            "id": "call_ZCuoQawmNbsxJammcIEEFSDZ",
+            "type": "tool_call"
+          }
+        ],
+        "invalid_tool_calls": [],
+        "usage_metadata": {
+          "input_tokens": 164,
+          "output_tokens": 18,
+          "total_tokens": 182,
+          "input_token_details": {
+            "audio": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "audio": 0,
+            "reasoning": 0
+          }
+        }
+      },
+      {
+        "content": "Error: ClosedResourceError()\n Please fix your mistakes.",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "tool",
+        "name": "add",
+        "id": "52e3a2f4-dcf6-4364-82db-8d88597e5883",
+        "tool_call_id": "call_ZCuoQawmNbsxJammcIEEFSDZ",
+        "artifact": null,
+        "status": "error"
+      },
+      {
+        "content": "",
+        "additional_kwargs": {
+          "tool_calls": [
+            {
+              "id": "call_Tfg7gLLPf82aofVNJ7tfMYHF",
+              "function": {
+                "arguments": "{\"a\":8,\"b\":12}",
+                "name": "multiply"
+              },
+              "type": "function"
+            }
+          ],
+          "refusal": null
+        },
+        "response_metadata": {
+          "token_usage": {
+            "completion_tokens": 18,
+            "prompt_tokens": 199,
+            "total_tokens": 217,
+            "completion_tokens_details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": 0,
+              "cached_tokens": 0
+            }
+          },
+          "model_name": "gpt-4o-2024-11-20",
+          "system_fingerprint": "fp_ee1d74bde0",
+          "id": "chatcmpl-BKakGZ55qNWWswzBiFOSCg6uvPei8",
+          "finish_reason": "tool_calls",
+          "logprobs": null,
+          "content_filter_results": {}
+        },
+        "type": "ai",
+        "name": null,
+        "id": "run-a080b12e-61c8-444e-b38f-c111f72f2bc9-0",
+        "example": false,
+        "tool_calls": [
+          {
+            "name": "multiply",
+            "args": {
+              "a": 8,
+              "b": 12
+            },
+            "id": "call_Tfg7gLLPf82aofVNJ7tfMYHF",
+            "type": "tool_call"
+          }
+        ],
+        "invalid_tool_calls": [],
+        "usage_metadata": {
+          "input_tokens": 199,
+          "output_tokens": 18,
+          "total_tokens": 217,
+          "input_token_details": {
+            "audio": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "audio": 0,
+            "reasoning": 0
+          }
+        }
+      },
+      {
+        "content": "Error: ClosedResourceError()\n Please fix your mistakes.",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "tool",
+        "name": "multiply",
+        "id": "6e4fa74c-8eb7-48ea-bc52-fb9c1391b070",
+        "tool_call_id": "call_Tfg7gLLPf82aofVNJ7tfMYHF",
+        "artifact": null,
+        "status": "error"
+      },
+      {
+        "content": "It seems there is an issue with the tools I tried to use. Let me calculate this manually for you.\n\nFirst, add \\(3 + 5 = 8\\). Then multiply \\(8 \\times 12 = 96\\).\n\nThe result is \\(96\\).",
+        "additional_kwargs": {
+          "refusal": null
+        },
+        "response_metadata": {
+          "token_usage": {
+            "completion_tokens": 57,
+            "prompt_tokens": 234,
+            "total_tokens": 291,
+            "completion_tokens_details": {
+              "accepted_prediction_tokens": 0,
+              "audio_tokens": 0,
+              "reasoning_tokens": 0,
+              "rejected_prediction_tokens": 0
+            },
+            "prompt_tokens_details": {
+              "audio_tokens": 0,
+              "cached_tokens": 0
+            }
+          },
+          "model_name": "gpt-4o-2024-11-20",
+          "system_fingerprint": "fp_ee1d74bde0",
+          "id": "chatcmpl-BKakHLmNsy0m4sRPgGsyrMOKkTZXO",
+          "finish_reason": "stop",
+          "logprobs": null,
+          "content_filter_results": {}
+        },
+        "type": "ai",
+        "name": null,
+        "id": "run-4651443c-60b6-4d37-a6bb-5784fc38f545-0",
+        "example": false,
+        "tool_calls": [],
+        "invalid_tool_calls": [],
+        "usage_metadata": {
+          "input_tokens": 234,
+          "output_tokens": 57,
+          "total_tokens": 291,
+          "input_token_details": {
+            "audio": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "audio": 0,
+            "reasoning": 0
+          }
+        }
+      }
+    ]
+  }
+}

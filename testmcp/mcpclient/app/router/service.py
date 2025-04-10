@@ -1,13 +1,9 @@
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter
 import os
 from dotenv import load_dotenv
 from pathlib import Path
-
-from langchain.agents import AgentExecutor, create_openai_tools_agent
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from langchain_mcp_adapters.tools import load_mcp_tools
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 ENV_FILE = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(ENV_FILE, override=True)
@@ -33,9 +29,26 @@ model = AzureChatOpenAI(
 router = APIRouter(prefix="/service")
 
 
+@router.get("/chat_stdio")
+async def chat_stdio(query:str):
+    async with MultiServerMCPClient(
+        {
+            "math": {
+                "command": "python",
+                "args": ["tool/mathr.py"],
+                "transport": "stdio",
+            }
+        }
+    ) as client:
+        await client.__aenter__()
+        tools = client.get_tools()
+        agent = create_react_agent(model, tools)
+        response = await agent.ainvoke({"messages" : query})
+    return {"response":response}
 
-@router.get("/serv/chat")
-async def chat(query:str):
+
+@router.get("/chat_sse")
+async def chat_sse(query:str):
     async with MultiServerMCPClient(
         {
         "test":{
@@ -46,14 +59,6 @@ async def chat(query:str):
     ) as client:
         await client.__aenter__()
         tools = client.get_tools()
-        # tools = await load_mcp_tools(client)
-
-    prompt = ChatPromptTemplate.from_messages([
-            ("system", "You are a helpful assistant."),
-            MessagesPlaceholder(variable_name="agent_scratchpad"),
-            ("human", "{input}"),
-        ])
-        
-    agent = create_react_agent(model, tools)
-    response = await agent.ainvoke({"messages" : query})
+        agent = create_react_agent(model, tools)
+        response = await agent.ainvoke({"messages" : query})
     return {"response":response}

@@ -18,25 +18,12 @@ client_port = int(os.getenv("CLIENT_PORT"))
 tool_port = int(os.getenv("TOOL_PORT"))
 
 
-app.include_router(router, prefix="/service")
+app.include_router(router, prefix="/service", tags=["service"])
 
 @app.get("/")
 def home():
     return {"message": "Hello World"}
 
-@app.get("/connect_sse")
-async def connect_sse():
-    async with MultiServerMCPClient(
-        {
-        "test":{
-            "url" : "http://127.0.0.1:%d/sse"%tool_port,
-            "transport": "sse"
-            }
-        }
-    ) as client:
-        await client.__aenter__()
-        tools = client.get_tools()
-        return {"tools":str(tools)}
     
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=client_port)
