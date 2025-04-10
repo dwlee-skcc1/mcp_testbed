@@ -6,8 +6,6 @@ from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from utils.mcp_response import MessageHandler
 
-from datetime import datetime
-
 ENV_FILE = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(ENV_FILE, override=True)
 
@@ -38,7 +36,7 @@ async def chat_stdio(query:str):
         {
             "math": {
                 "command": "python",
-                "args": ["tool/mathr.py"],
+                "args": ["tool/math.py"],
                 "transport": "stdio",
             }
         }

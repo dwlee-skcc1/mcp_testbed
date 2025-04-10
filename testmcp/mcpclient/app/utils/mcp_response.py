@@ -21,7 +21,7 @@ class MessageHandler:
             elif isinstance(msg, AIMessage):
                 self.sturctured_messages.append({
                     "type": "ai",
-                    "content": msg.content,
+                    "content": msg.content.rpelace("\\", ""),
                     "tool_calls" : [tool["name"] for tool in msg.tool_calls],
                     "token_usage" : msg.usage_metadata["total_tokens"]
                     })
