@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
+from utils.mcp_response import save_response_to_file
 
 ENV_FILE = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(ENV_FILE, override=True)
@@ -28,6 +29,10 @@ model = AzureChatOpenAI(
 
 router = APIRouter(prefix="/service")
 
+@router.get("/test")
+def testest():
+    res = save_response_to_file("")
+    return {"message":res}
 
 @router.get("/chat_stdio")
 async def chat_stdio(query:str):
@@ -44,6 +49,8 @@ async def chat_stdio(query:str):
         tools = client.get_tools()
         agent = create_react_agent(model, tools)
         response = await agent.ainvoke({"messages" : query})
+        save_response_to_file(response)
+
     return {"response":response}
 
 
@@ -61,4 +68,5 @@ async def chat_sse(query:str):
         tools = client.get_tools()
         agent = create_react_agent(model, tools)
         response = await agent.ainvoke({"messages" : query})
+        save_response_to_file(response)
     return {"response":response}
