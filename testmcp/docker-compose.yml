@@ -1,0 +1,40 @@
+version: "3.10"
+services:
+  fastmcp:
+    build:
+      context: ./fastmcp/app
+      dockerfile: Dockerfile
+    container_name: fastmcp
+    command: 
+    env_file:
+      - .env
+    ports:
+      - "${TOOL_PORT}:${TOOL_PORT}"
+    volumes:
+      - ./fastmcp/app:/app
+    environment:
+      - TOOL_HOST=${TOOL_HOST}
+      - TOOL_PORT=${TOOL_PORT}
+    networks:
+      - test_mcp_default
+
+  mcpclient:
+    build:
+      context: ./mcpclient/app
+      dockerfile: Dockerfile
+    container_name: mcpclient
+    command: 
+    env_file:
+      - .env
+    ports:
+      - "${CLIENT_PORT}:${CLIENT_PORT}"
+    volumes:
+      - ./mcpclient/app:/app
+    environment:
+      - CLIENT_HOST=${CLIENT_HOST}
+      - CLIENT_PORT=${CLIENT_PORT}
+    networks:
+      - test_mcp_default
+networks:
+  test_mcp_default:
+    driver: bridge
