@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from utils.mcp_response import save_response_to_file
+from utils.mcp_response import MessageHandler
 
 ENV_FILE = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(ENV_FILE, override=True)
@@ -29,6 +29,7 @@ model = AzureChatOpenAI(
 
 router = APIRouter(prefix="/service")
 
+<<<<<<< HEAD
 #키워드 추출 프롬프트
 keyword_extraction_prompt = """
 당신은 유저 쿼리에서 문서 검색에 필요한 핵심 키워드와 파라미터를 추출한 후, 적절한 도구를 호출하는 전문가입니다.
@@ -58,6 +59,8 @@ keyword_extraction_prompt = """
 def testest():
     res = save_response_to_file("")
     return {"message":res}
+=======
+>>>>>>> main
 
 @router.get("/chat_stdio")
 async def chat_stdio(query:str):
@@ -65,7 +68,7 @@ async def chat_stdio(query:str):
         {
             "math": {
                 "command": "python",
-                "args": ["tool/mathr.py"],
+                "args": ["tool/math.py"],
                 "transport": "stdio",
             }
         }
@@ -74,7 +77,6 @@ async def chat_stdio(query:str):
         tools = client.get_tools()
         agent = create_react_agent(model, tools)
         response = await agent.ainvoke({"messages" : query})
-        save_response_to_file(response)
 
     return {"response":response}
 
@@ -92,6 +94,7 @@ async def chat_sse(query:str):
         await client.__aenter__()
         tools = client.get_tools()
         agent = create_react_agent(model, tools, prompt=keyword_extraction_prompt)
-        response = await agent.ainvoke({"messages" : query})
-        # save_response_to_file(response)
-    return {"response":response}
+        responses = await agent.ainvoke({"messages" : query})
+        message_handler = MessageHandler(responses)
+        message_handler.save_as_json()
+    return {"response":responses}
