@@ -1,10 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 import os
 from dotenv import load_dotenv
 from pathlib import Path
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
+
+
 from utils.mcp_response import MessageHandler
+from services.sample_service import SampleService
+from services.agent.sample_agent import SampleAgent, SampleConnectAgent
+from services.schemas.chat.request import OpenAIRequest
+from services.schemas.chat.response import SampleResponse
+from core.llm import get_model
 
 ENV_FILE = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(ENV_FILE, override=True)
@@ -12,22 +19,52 @@ load_dotenv(ENV_FILE, override=True)
 client_port = int(os.getenv("CLIENT_PORT"))
 tool_port = int(os.getenv("TOOL_PORT"))
 
+tool_dir = Path(__file__).resolve().parent.parent / "tool" 
 
-from langchain_openai import AzureChatOpenAI
-model = AzureChatOpenAI(
-    azure_deployment=os.getenv("OPENAI_DEPLOYMENT"),
-    azure_endpoint=os.getenv("OPENAI_ENDPOINT"),
-    api_version=os.getenv("OPENAI_API_VERSION"),
-    api_key=os.getenv("OPENAI_API_KEY"),
-    n=1,
-    temperature=0,
-    max_tokens=500,
-    model=os.getenv("OPENAI_MODEL"),
-    verbose=True,
-    streaming=False,
-    )
 
-router = APIRouter(prefix="/service")
+
+router = APIRouter()
+
+
+@router.post("/test_connect")
+async def test_connect():
+    """
+    SSE test connection
+    """
+    graph = SampleConnectAgent().get_graph()
+    response = await graph.ainvoke({})
+    return response
+
+
+@router.post("/chat_sse_test", response_model=SampleResponse)
+async def chat_sse_test(request:OpenAIRequest):
+    """
+    SSE test connection to "test" tool
+    """
+    sample_service = SampleService()
+    graph = await SampleAgent(llm=get_model()).get_graph()
+    return await sample_service.chat_sse_test_completion(request, graph)
+
+
+### 아래 api는 모두 테스트 중
+
+@router.get("/connect_stdio")
+async def connect_stdio():
+    async with MultiServerMCPClient(
+        {
+            "math": {
+                "command": "python",
+                "args": ["%s/math.py"%tool_dir],
+                "transport": "stdio",
+            }
+        }
+    ) as client:
+        print("here")
+        await client.__aenter__()
+        tools = client.get_tools()
+
+    return {"response":tools}
+
 
 
 @router.get("/chat_stdio")
