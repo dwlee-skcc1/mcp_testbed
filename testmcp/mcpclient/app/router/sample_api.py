@@ -33,7 +33,7 @@ async def test_connect():
     """
     sample_service = SampleService()
     graph = SampleConnectAgent().get_graph()
-    return await sample_service.tool_test(tools=["test"], graph=graph)
+    return await sample_service.tool_test(tools=["sse"], graph=graph)
 
 
 @router.post("/chat_sse", response_model=SampleResponse)
@@ -43,7 +43,7 @@ async def chat_sse_test(request:OpenAIRequest):
     """
     sample_service = SampleService()
     graph = await SampleAgent(llm=get_model()).get_graph()
-    return await sample_service.chat_test_completion(tools=["test"], request=request, graph=graph)
+    return await sample_service.chat_test_completion(tools=["sse"], request=request, graph=graph)
 
 
 ### 아래 api는 모두 테스트 중
@@ -55,7 +55,7 @@ async def connect_stdio():
     """
     sample_service = SampleService()
     graph = SampleConnectAgent().get_graph()
-    return await sample_service.tool_test(tools=["math"], graph=graph)
+    return await sample_service.tool_test(tools=["stdio"], graph=graph)
 
 
 
@@ -66,5 +66,5 @@ async def chat_stdio(request:OpenAIRequest):
     """
     sample_service = SampleService()
     graph = await SampleAgent(llm=get_model()).get_graph()
-    return await sample_service.chat_test_completion(tools=["math"], request=request, graph=graph)
+    return await sample_service.chat_test_completion(tools=["stdio"], request=request, graph=graph)
 
