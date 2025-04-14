@@ -1,10 +1,6 @@
 from typing import Any, Dict, List
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
-from fastapi.responses import StreamingResponse
-
-from services.agent.state import State
-from services.agent.sample_agent import SampleConnectAgent, SampleAgent
 from services.schemas.chat.request import OpenAIRequest
 
 
@@ -71,7 +67,6 @@ class SampleService:
         # 응답 생성
         responses = await self._generate_responses(state, graph) #state 객체로 나옴
         return {"answer" : str(responses["answer"])}
-
         # return self._create_response_data(content=str(responses["answer"]))
     
     async def _initialize_chat_state(
@@ -91,6 +86,7 @@ class SampleService:
         # async for s in graph.astream(state, stream_mode="values"):
         #     if "__end__" not in s:
         #         responses.append(s)
+        print(state)
         responses = await graph.ainvoke(state)
         return responses
     

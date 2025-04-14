@@ -8,7 +8,6 @@ from langchain_openai import AzureChatOpenAI, ChatOpenAI
 
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
-from langchain_core.runnables import RunnablePassthrough
 from utils.mcp_response import MessageHandler
 from tool.tool_manager import ToolManager
 

@@ -31,7 +31,7 @@ class ToolManager:
                 if params["transport"] == "sse":
                     params["url"] += ":%d/sse"%tool_port
                 else:
-                    params["args"][0] = f"{tool_dir}/%{params["args"]}"
+                    params["args"][0] = "%s/%s"%(tool_dir, params["args"])
                 tool_params[tool] = params
             
             except KeyError as e:

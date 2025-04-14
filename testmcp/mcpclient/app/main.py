@@ -1,5 +1,3 @@
-from langchain_mcp_adapters.client import MultiServerMCPClient
-
 from fastapi import FastAPI
 import uvicorn, os
 from pathlib import Path
