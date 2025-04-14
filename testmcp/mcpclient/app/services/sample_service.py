@@ -26,9 +26,24 @@ class SampleService:
             elif msg["role"] == "system":
                 converted_messages.append(SystemMessage(content=msg["content"]))
         return converted_messages
+    
+    async def tool_test(
+            self,
+            tools:List[str],
+            graph:Any
+    )->Dict:
+        state = await self._initialize_chat_state(
+            messages=[],
+            user_query="",
+            tools=tools)
+        responses = await self._generate_responses(state, graph)
+        return {"answer" : str(responses["answer"])}
 
-    async def chat_sse_test_completion(
-        self, request: OpenAIRequest, graph:Any
+    async def chat_test_completion(
+        self,
+        tools:List[str],
+        request: OpenAIRequest,
+        graph:Any
     )->Dict:
         """
         채팅 완료 처리
@@ -50,22 +65,22 @@ class SampleService:
 
         state = await self._initialize_chat_state(
             messages=messages_list,
-            user_query=request.messages[-1]["content"])
+            user_query=request.messages[-1]["content"],
+            tools=tools)
         
         # 응답 생성
         responses = await self._generate_responses(state, graph) #state 객체로 나옴
-        print(str(responses["answer"]))
         return {"answer" : str(responses["answer"])}
 
         # return self._create_response_data(content=str(responses["answer"]))
     
     async def _initialize_chat_state(
-        self, messages:list, user_query:str
+        self, messages:list, user_query:str, tools:List[str]
     )->Dict:
         state = {
             "user_query":user_query,
             "messages":messages,
-            "tool":"",
+            "tool":tools,
             "answer" : ""
         }
         return state

@@ -6,5 +6,5 @@ class State(TypedDict):
 
     user_query:str
     messages: List[Dict]
-    tool:str
+    tool:List[str]
     answer:str

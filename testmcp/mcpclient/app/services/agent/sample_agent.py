@@ -15,10 +15,6 @@ from tool.tool_manager import ToolManager
 tool_manager = ToolManager()
 
 
-def sample_tool_selector(state:State)->State:
-    state["tool"] = "test"
-
-
 class SampleConnectAgent(BaseAgent):
     def __init__(self):
         self.system_prompt = "You are a helpful assistant."
@@ -30,12 +26,13 @@ class SampleConnectAgent(BaseAgent):
         workflow.add_edge("connect", END)
         return workflow.compile()
 
-    async def run_sample_connect(self, state:State)->State:
-        
-        state = sample_tool_selector(state)
-        
+    async def run_sample_connect(
+            self,
+            state:Dict
+            ):
+        tool_parameters = tool_manager.get_tool_parameters(state["tool"])
         async with MultiServerMCPClient(
-            {state["tool"] : tool_manager.get_tool_parameters(state["tool"])}
+            {tool : tool_parameters[tool] for tool in state["tool"]}
         ) as client:
             await client.__aenter__()
             tools = client.get_tools()
@@ -63,12 +60,14 @@ class SampleAgent(BaseAgent):
             self,
             state:Dict
             ):
-        sample_tool_selector(state)
+
         state["user_query"] = state.get("user_query")
         state["messages"] = state.get("messages")
 
+        tool_parameters = tool_manager.get_tool_parameters(state["tool"])
+
         async with MultiServerMCPClient(
-            {state["tool"] : tool_manager.get_tool_parameters(state["tool"])}
+            {tool : tool_parameters[tool] for tool in state["tool"]}
         ) as client:
             await client.__aenter__()
             tools = client.get_tools()

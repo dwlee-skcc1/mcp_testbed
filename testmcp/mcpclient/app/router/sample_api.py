@@ -26,81 +26,45 @@ tool_dir = Path(__file__).resolve().parent.parent / "tool"
 router = APIRouter()
 
 
-@router.post("/test_connect")
+@router.post("/connect_sse")
 async def test_connect():
     """
     SSE test connection
     """
+    sample_service = SampleService()
     graph = SampleConnectAgent().get_graph()
-    response = await graph.ainvoke({})
-    return response
+    return await sample_service.tool_test(tools=["test"], graph=graph)
 
 
-@router.post("/chat_sse_test", response_model=SampleResponse)
+@router.post("/chat_sse", response_model=SampleResponse)
 async def chat_sse_test(request:OpenAIRequest):
     """
     SSE test connection to "test" tool
     """
     sample_service = SampleService()
     graph = await SampleAgent(llm=get_model()).get_graph()
-    return await sample_service.chat_sse_test_completion(request, graph)
+    return await sample_service.chat_test_completion(tools=["test"], request=request, graph=graph)
 
 
 ### 아래 api는 모두 테스트 중
 
-@router.get("/connect_stdio")
+@router.post("/connect_stdio")
 async def connect_stdio():
-    async with MultiServerMCPClient(
-        {
-            "math": {
-                "command": "python",
-                "args": ["%s/math.py"%tool_dir],
-                "transport": "stdio",
-            }
-        }
-    ) as client:
-        print("here")
-        await client.__aenter__()
-        tools = client.get_tools()
-
-    return {"response":tools}
+    """
+    STDIO test connection
+    """
+    sample_service = SampleService()
+    graph = SampleConnectAgent().get_graph()
+    return await sample_service.tool_test(tools=["math"], graph=graph)
 
 
 
 @router.get("/chat_stdio")
-async def chat_stdio(query:str):
-    async with MultiServerMCPClient(
-        {
-            "math": {
-                "command": "python",
-                "args": ["tool/math.py"],
-                "transport": "stdio",
-            }
-        }
-    ) as client:
-        await client.__aenter__()
-        tools = client.get_tools()
-        agent = create_react_agent(model, tools)
-        response = await agent.ainvoke({"messages" : query})
+async def chat_stdio(request:OpenAIRequest):
+    """
+    STDIO test connection to "test" tool
+    """
+    sample_service = SampleService()
+    graph = await SampleAgent(llm=get_model()).get_graph()
+    return await sample_service.chat_test_completion(tools=["math"], request=request, graph=graph)
 
-    return {"response":response}
-
-
-@router.get("/chat_sse")
-async def chat_sse(query:str):
-    async with MultiServerMCPClient(
-        {
-        "test":{
-            "url" : "http://127.0.0.1:%d/sse"%tool_port,
-            "transport": "sse"
-            }
-        }
-    ) as client:
-        await client.__aenter__()
-        tools = client.get_tools()
-        agent = create_react_agent(model, tools)
-        responses = await agent.ainvoke({"messages" : query})
-        message_handler = MessageHandler(responses)
-        message_handler.save_as_json()
-
-    return {"response":responses}

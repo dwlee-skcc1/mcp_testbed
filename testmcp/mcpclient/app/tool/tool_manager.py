@@ -1,6 +1,7 @@
 from pathlib import Path
 import os, json
 from dotenv import load_dotenv
+from typing import Dict, Union, List
 
 ENV_FILE = Path(__file__).resolve().parent.parent.parent.parent / ".env"
 load_dotenv(ENV_FILE, override=True)
@@ -19,15 +20,24 @@ class ToolManager:
     def get_list(self):
         return self.tool_list
     
-    def get_tool_parameters(self, tool:str):
-        try:
-            tool_params = self.tools[tool]
-            if tool_params["transport"] == "sse":
-                tool_params["url"] += ":%d/sse"%tool_port
-            else:
-                tool_params["args"][0] = f"{tool_dir}/%{tool_params["args"]}"
+    def get_tool_parameters(
+            self, 
+            tools:List[str]
+            )->Dict:
+        tool_params = {}
+        for tool in tools:
+            try:
+                params = self.tools[tool]
+                if params["transport"] == "sse":
+                    params["url"] += ":%d/sse"%tool_port
+                else:
+                    params["args"][0] = f"{tool_dir}/%{params["args"]}"
+                tool_params[tool] = params
+            
+            except KeyError as e:
+                # raise error
+                return {"messages" : "There is no tool for %s"%tool}
+
             return tool_params
         
-        except KeyError as e:
-            # raise error
-            return {"messages" : "There is no tool for %s"%tool}
+        
