@@ -86,7 +86,6 @@ class SampleService:
         # async for s in graph.astream(state, stream_mode="values"):
         #     if "__end__" not in s:
         #         responses.append(s)
-        print(state)
         responses = await graph.ainvoke(state)
         return responses
     

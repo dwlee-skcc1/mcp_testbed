@@ -55,7 +55,7 @@ async def connect_stdio():
 
 
 
-@router.get("/chat_stdio")
+@router.get("/chat_stdio", response_model=SampleResponse)
 async def chat_stdio(request:OpenAIRequest):
     """
     STDIO test connection to "test" tool

@@ -8,10 +8,11 @@ from langchain_openai import AzureChatOpenAI, ChatOpenAI
 
 from langgraph.prebuilt import create_react_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
+
 from utils.mcp_response import MessageHandler
 from tool.tool_manager import ToolManager
 
-tool_manager = ToolManager()
+
 
 
 class SampleConnectAgent(BaseAgent):
@@ -29,14 +30,21 @@ class SampleConnectAgent(BaseAgent):
             self,
             state:Dict
             ):
+        tool_manager = ToolManager()
         tool_parameters = tool_manager.get_tool_parameters(state["tool"])
         async with MultiServerMCPClient(
             {tool : tool_parameters[tool] for tool in state["tool"]}
         ) as client:
             await client.__aenter__()
             tools = client.get_tools()
-        state["answer"] = str(tools)
+        tool_spec = []
+        for tool in tools:
+            input_params = ["%s:%s"%(k, v["type"]) for k, v in tool.args_schema["properties"].items()]
+            tool_spec.append("%s(%s) : %s"%(tool.name, ", ".join(input_params), tool.description))
+
+        state["answer"] = "\n".join(tool_spec)
         return state
+
 
 
 
@@ -44,9 +52,6 @@ class SampleConnectAgent(BaseAgent):
 class SampleAgent(BaseAgent):
     def __init__(self, llm: Union[ChatOpenAI, AzureChatOpenAI]):
         super().__init__(llm)
-        ## TBD
-        self.tools = ""
-        self.system_prompt = ""
     
     async def get_graph(self):
         workflow = StateGraph(State)
@@ -62,9 +67,8 @@ class SampleAgent(BaseAgent):
 
         state["user_query"] = state.get("user_query")
         state["messages"] = state.get("messages")
-
+        tool_manager = ToolManager()
         tool_parameters = tool_manager.get_tool_parameters(state["tool"])
-
         async with MultiServerMCPClient(
             {tool : tool_parameters[tool] for tool in state["tool"]}
         ) as client:
