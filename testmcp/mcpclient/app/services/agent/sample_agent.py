@@ -11,7 +11,6 @@ from langchain_mcp_adapters.client import MultiServerMCPClient
 from utils.mcp_response import MessageHandler
 from tool.tool_manager import ToolManager
 
-tool_manager = ToolManager()
 
 
 class SampleConnectAgent(BaseAgent):
@@ -29,6 +28,7 @@ class SampleConnectAgent(BaseAgent):
             self,
             state:Dict
             ):
+        tool_manager = ToolManager()
         tool_parameters = tool_manager.get_tool_parameters(state["tool"])
         async with MultiServerMCPClient(
             {tool : tool_parameters[tool] for tool in state["tool"]}
@@ -62,17 +62,17 @@ class SampleAgent(BaseAgent):
 
         state["user_query"] = state.get("user_query")
         state["messages"] = state.get("messages")
-
-        tool_parameters = tool_manager.get_tool_parameters(state["tool"])
+        tool_manager = ToolManager()
+        tool_parameters = tool_manager.get_tool_parameters(state["tool"]) #tool list
 
         async with MultiServerMCPClient(
             {tool : tool_parameters[tool] for tool in state["tool"]}
-        ) as client:
+        ) as client: #비동기로 여러 도구에 각각 client 연결
             await client.__aenter__()
             tools = client.get_tools()
-            agent = create_react_agent(self.llm, tools)
-            responses = await agent.ainvoke({"messages":state["user_query"]})
-            message_handler = MessageHandler(responses)
+            agent = create_react_agent(self.llm, tools) #react agent 생성
+            responses = await agent.ainvoke({"messages":state["user_query"]}) #여기서 능동적으로 선택
+            message_handler = MessageHandler(responses) #결과 메세지 파싱, 필요한 정보 뽑아내게
             message_handler.save_as_json()
             answer = message_handler.get_answer()
             state["answer"] = answer
