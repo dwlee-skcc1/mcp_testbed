@@ -32,9 +32,9 @@ class SampleConnectAgent(BaseAgent):
             ):
         tool_manager = ToolManager()
         tool_parameters = tool_manager.get_tool_parameters(state["tool"])
-        async with MultiServerMCPClient(
-            {tool : tool_parameters[tool] for tool in state["tool"]}
-        ) as client:
+        server_params = {tool : tool_parameters[tool] for tool in state["tool"]}
+        
+        async with MultiServerMCPClient(server_params) as client:
             await client.__aenter__()
             tools = client.get_tools()
         tool_spec = []

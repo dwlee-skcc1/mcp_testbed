@@ -28,10 +28,12 @@ class ToolManager:
         for tool in tools:
             try:
                 params = self.tools[tool]
+                print(params)
                 if params["transport"] == "sse":
                     params["url"] += ":%d/sse"%tool_port
                 else:
-                    params["args"][0] = "%s/%s"%(tool_dir, params["args"])
+                    params["args"][0] = os.path.join(tool_dir, params["args"][0])
+                print(params)
                 tool_params[tool] = params
             
             except KeyError as e:
