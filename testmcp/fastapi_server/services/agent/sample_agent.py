@@ -2,6 +2,7 @@ from typing import Any, Union, List, Dict, Optional
 import json
 import re
 import asyncio
+import os
 
 from fastapi_server.services.agent.state import State
 from fastapi_server.services.agent.base_agent import BaseAgent
@@ -38,25 +39,13 @@ class SampleConnectAgent(BaseAgent): #baseAgent 상속
         tool_manager = ToolManager()
         tool_parameters = tool_manager.get_tool_parameters(state["tool"])
         
-        # 직접 URL 수정
-        print(f"Original tool parameters: {tool_parameters}")
-        for tool_name, params in tool_parameters.items():
-            if params.get("transport") == "sse" and "url" in params:
-                # URL에 포트 번호가 없으면 추가
-                if ":8001" not in params["url"]:
-                    # /sse 제거 후 포트 추가
-                    params["url"] = params["url"].replace("/sse", "")
-                    params["url"] += ":8001/sse"
-                print(f"Modified URL for {tool_name}: {params['url']}")
-        
-        print(f"Modified tool parameters: {tool_parameters}")
-        
+        print(f"Tool parameters for {state['tool']}: {tool_parameters}")
         try:
+            print(f"Creating client with URL: {tool_parameters.get('sse', {}).get('url', 'None')}")
             async with MultiServerMCPClient(tool_parameters) as client:
-                print("Requesting tools...")
+                print("Client created successfully, requesting tools...")
                 tools = await client.get_tools()
-                print(f"Received tools: {tools}")  # 디버깅 정보 추가
-                
+                print(f"Got tools response: {tools}")
                 tool_spec = []
                 
                 # 도구 목록 처리 및 포맷팅
@@ -89,8 +78,9 @@ class SampleConnectAgent(BaseAgent): #baseAgent 상속
                     
         except Exception as e:
             import traceback
-            print(f"Error connecting to MCP server: {str(e)}")
-            print(traceback.format_exc())  # 자세한 오류 정보
+            traceback_str = traceback.format_exc()
+            print(f"Error in MCP connection: {str(e)}")
+            print(f"Traceback: {traceback_str}")
             state["answer"] = f"Error connecting to MCP server: {str(e)}"
         
         print(f"Final state: {state}")  # 최종 상태 출력
@@ -328,15 +318,22 @@ subtract(a=10, b=3)
     
     async def _get_llm_response(self, messages: List[Dict[str, Any]]) -> str:
         """Azure OpenAI API 호출"""
-        import os
         import httpx
         import json
         
         # Azure OpenAI API 설정
-        api_key = os.getenv("OPENAI_API_KEY", "0bd408f3908940dd88e2d889d71fba02")
-        api_base = os.getenv("OPENAI_API_BASE", "https://report-tf-openai-jp.openai.azure.com")
-        api_version = os.getenv("OPENAI_API_VERSION", "2025-01-01-preview")
-        deployment = os.getenv("OPENAI_DEPLOYMENT", "lkm-gpt-4o-mini")
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
+        api_base = os.getenv("OPENAI_API_BASE")
+        if not api_base:
+            raise ValueError("OPENAI_API_BASE 환경 변수가 설정되지 않았습니다.")
+        api_version = os.getenv("OPENAI_API_VERSION")
+        if not api_version:
+            raise ValueError("OPENAI_API_VERSION 환경 변수가 설정되지 않았습니다.")
+        deployment = os.getenv("OPENAI_DEPLOYMENT")
+        if not deployment:
+            raise ValueError("OPENAI_DEPLOYMENT 환경 변수가 설정되지 않았습니다.")
         
         # Azure용 API URL 구성
         api_url = f"{api_base}/openai/deployments/{deployment}/chat/completions?api-version={api_version}"
