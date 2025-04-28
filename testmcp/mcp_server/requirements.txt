@@ -1,0 +1,7 @@
+# MCP 서버 전용 패키지
+fastapi==0.100.0
+uvicorn[standard]==0.23.2
+# python_dotenv==1.0.0
+redis==4.6.0
+celery==5.3.1
+

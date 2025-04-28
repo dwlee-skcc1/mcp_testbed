@@ -1,40 +1,85 @@
-version: "3.10"
 services:
-  fastmcp:
-    build:
-      context: ./fastmcp/app
-      dockerfile: Dockerfile
-    container_name: fastmcp
-    command: 
-    env_file:
-      - .env
+  redis:
+    image: redis:latest
     ports:
-      - "${TOOL_PORT}:${TOOL_PORT}"
-    volumes:
-      - ./fastmcp/app:/app
-    environment:
-      - TOOL_HOST=${TOOL_HOST}
-      - TOOL_PORT=${TOOL_PORT}
+      - "6379:6379"
     networks:
-      - test_mcp_default
+      - mcp_network
+    # Redis 상태 확인 추가
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  mcpclient:
+  # 첫 번째 celery_worker_math 정의 제거 또는 수정
+  # 이 부분은 제거하고 아래 정의만 사용하는 것이 좋습니다
+  
+  mcp_server:
     build:
-      context: ./mcpclient/app
-      dockerfile: Dockerfile
-    container_name: mcpclient
-    command: 
+      context: .
+      dockerfile: mcp_server/Dockerfile
+    ports:
+      - "8001:8001"
+    environment:
+      - REDIS_HOST=redis
+      - TOOL_PORT=8001
+    depends_on:
+      # Redis 상태 확인 후 시작하도록 수정
+      redis:
+        condition: service_healthy
+    networks:
+      - mcp_network
+
+  api_server:
+    build:
+      context: .
+      dockerfile: fastapi_server/Dockerfile
     env_file:
       - .env
     ports:
-      - "${CLIENT_PORT}:${CLIENT_PORT}"
-    volumes:
-      - ./mcpclient/app:/app
+      - "8000:8000"
     environment:
-      - CLIENT_HOST=${CLIENT_HOST}
-      - CLIENT_PORT=${CLIENT_PORT}
+      - REDIS_HOST=redis
+      - CLIENT_PORT=8000
+      - TOOL_PORT=8001
+      - MCP_SERVER_URL=http://mcp_server
+      - OPENAI_API_TYPE=azure
+      - OPENAI_API_BASE=https://report-tf-openai-jp.openai.azure.com
+      - OPENAI_API_VERSION=2025-01-01-preview
+      - OPENAI_API_KEY=0bd408f3908940dd88e2d889d71fba02
+      - OPENAI_MODEL=gpt-4o-mini
+      - OPENAI_DEPLOYMENT=lkm-gpt-4o-mini
+      - o3_API_KEY=
+      - o3_ENDPOINT=
+      - OPENAI_TEMPERATURE=0
+      - OPENAI_MAX_TOKENS=800
+    depends_on:
+      # Redis와 MCP 서버가 모두 준비되면 시작
+      redis:
+        condition: service_healthy
+      mcp_server:
+        condition: service_started
     networks:
-      - test_mcp_default
+      - mcp_network
+
+  # 이 정의를 유지하고 위의 중복된 정의는 제거
+  celery_worker_math:
+    build:
+      context: .
+      dockerfile: celery_workers/Dockerfile
+    command: celery -A celery_workers.celery_app worker --loglevel=info -Q math_queue -n math_worker@%h --max-tasks-per-child=1
+    environment:
+      - REDIS_HOST=redis
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - MCP_SERVER_HOST=mcp_server
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - mcp_network
+
 networks:
-  test_mcp_default:
+  mcp_network:
     driver: bridge

@@ -1,0 +1,8 @@
+# Celery 워커 전용 패키지
+celery==5.3.1
+redis==4.6.0
+# python_dotenv==1.0.0
+
+# 추가 유틸리티 (필요시)
+# pandas==2.0.3
+# numpy==1.25.2

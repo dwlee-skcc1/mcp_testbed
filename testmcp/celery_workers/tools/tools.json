@@ -1,0 +1,23 @@
+{
+  "math": {
+    "transport": "sse",
+    "url": "http://mcp_server",
+    "description": "수학 연산 도구 (add, multiply, subtract, divide)",
+    "args": []
+  },
+  "sse": {
+    "transport": "sse",
+    "url": "http://mcp_server"
+  },
+  "stdio": {
+    "transport": "stdio",
+    "description": "표준 입출력 기반 도구",
+    "args": ["math_tool.py"]
+  },
+  "merge_files": {
+    "transport": "sse",
+    "url": "http://mcp_server",
+    "description": "여러 파일을 하나로 병합하는 도구",
+    "queue": "default"
+  }
+}

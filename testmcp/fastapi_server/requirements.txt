@@ -1,0 +1,14 @@
+# API 서버 전용 패키지
+fastapi==0.100.0
+uvicorn[standard]==0.23.2
+python-dotenv==1.0.0
+httpx==0.24.1
+pydantic==2.1.1
+
+# LangChain 관련
+langchain==0.0.317
+langchain-openai==0.0.5
+langgraph==0.0.20
+
+# 기타 유틸리티
+python-multipart==0.0.6
