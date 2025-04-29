@@ -37,16 +37,16 @@ class DocumentAgent(BaseAgent):
         async with MultiServerMCPClient(server_params) as client:
             await client.__aenter__()
             tools = client.get_tools()
-            # agent = create_react_agent(self.llm, tools)
-            # responses = await agent.ainvoke({"messages":state["user_query"]})
-            # message_handler = MessageHandler(responses)
-            # message_handler.save_as_json()
-            # answer = message_handler.get_answer()
-            # state["answer"] = answer
-        tool_spec = []
-        for tool in tools:
-            input_params = ["%s:%s"%(k, v["type"]) for k, v in tool.args_schema["properties"].items()]
-            tool_spec.append("%s(%s) : %s"%(tool.name, ", ".join(input_params), tool.description))
+            agent = create_react_agent(self.llm, tools)
+            responses = await agent.ainvoke({"messages":state["user_query"]})
+            message_handler = MessageHandler(responses)
+            message_handler.save_as_json()
+            answer = message_handler.get_answer()
+            state["answer"] = answer
+        # tool_spec = []
+        # for tool in tools:
+        #     input_params = ["%s:%s"%(k, v["type"]) for k, v in tool.args_schema["properties"].items()]
+        #     tool_spec.append("%s(%s) : %s"%(tool.name, ", ".join(input_params), tool.description))
+        # state["answer"] = "\n".join(tool_spec)
 
-        state["answer"] = "\n".join(tool_spec)
         return state

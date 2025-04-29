@@ -1,8 +1,13 @@
 from mcp.server.fastmcp import FastMCP
-
 import markdown
+from pathlib import Path
 
-def read_markdown_file(file_path):
+file_dir = Path(__file__).resolve().parent.parent / "data" / "sample_document.md"
+
+
+
+
+def read_markdown_file(file_path:str=file_dir):
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
@@ -19,7 +24,7 @@ def read_markdown_file(file_path):
 mcp = FastMCP("document")
 
 @mcp.tool()
-def read_header(file_path:str):
+def read_header(file_path:str=file_dir):
     """
     Read the first 5 lines of a markdown file.
     """
