@@ -9,7 +9,7 @@ load_dotenv(ENV_FILE, override=True)
 client_port = int(os.getenv("CLIENT_PORT"))
 tool_port = int(os.getenv("TOOL_PORT"))
 
-tool_dir = Path(__file__).resolve().parent.parent / "tool" 
+tool_dir = Path(__file__).resolve().parent.parent / "tools" 
 
 class ToolManager:
     def __init__(self):
@@ -33,7 +33,6 @@ class ToolManager:
                     params["url"] += ":%d/sse"%tool_port
                 else:
                     params["args"][0] = os.path.join(tool_dir, params["args"][0])
-                print(params)
                 tool_params[tool] = params
             
             except KeyError as e:

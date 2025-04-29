@@ -80,7 +80,7 @@ class SampleService:
         }
         return state
 
-    async def _generate_responses(self, state: Dict, graph: Any) -> List:
+    async def _generate_responses(self, state: Dict, graph: Any) -> Any:
         """응답 생성"""
         # responses = []
         # async for s in graph.astream(state, stream_mode="values"):

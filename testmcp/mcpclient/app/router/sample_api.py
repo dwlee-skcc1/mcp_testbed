@@ -15,7 +15,7 @@ load_dotenv(ENV_FILE, override=True)
 client_port = int(os.getenv("CLIENT_PORT"))
 tool_port = int(os.getenv("TOOL_PORT"))
 
-tool_dir = Path(__file__).resolve().parent.parent / "tool" 
+tool_dir = Path(__file__).resolve().parent.parent / "tools" 
 
 
 
