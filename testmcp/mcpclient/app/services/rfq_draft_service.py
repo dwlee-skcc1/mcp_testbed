@@ -99,6 +99,8 @@ class RfqDraftService:
             available_tools_str += f"{tool['name']} : {tool['description']}\n"
 
         prompt = f"""아래 문서의 내용을 절차지향적으로 정리하고, 제공된 함수들을 최대한 활용할 수 있는 step-action 구조로 작성해줘.
+        이 때, step의 갯수는 최대 5개를 넘지 않으며 각 step에는 여러 개의 action으로 구성 될 수 있어.
+        그리고 각 action들은 하나의 tool을 사용할거야. tool을 작성할 때는 함수 이름으로만 작성해줘.
         문서경로: {file_path}
         제공된 함수들: {available_tools_str}
         사용자 질문: {user_query}
