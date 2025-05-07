@@ -10,6 +10,7 @@ client_port = int(os.getenv("CLIENT_PORT"))
 tool_port = int(os.getenv("TOOL_PORT"))
 
 tool_dir = Path(__file__).resolve().parent.parent / "tools" 
+module1_tool_dir = tool_dir / "module1.json"
 
 class ToolManager:
     def __init__(self):
@@ -40,5 +41,16 @@ class ToolManager:
                 return {"messages" : "There is no tool for %s"%tool}
 
             return tool_params
-        
-        
+    
+    def get_tool_list(
+            self,
+            tool_name:str
+    )->List[Dict]:
+        # db crud로 긁어온다고 생각하고 하드코딩
+        tool_list = json.load(open(os.path.join(tool_dir, f"{tool_name}.json"), "r", encoding="utf-8"))
+        return tool_list
+    
+    def get_module1_tool_list(self):
+        ## 모듈1 툴 리스트 가져오기. 완전 하드코딩.
+        tool_list = json.load(open(module1_tool_dir, "r", encoding="utf-8"))
+        return tool_list

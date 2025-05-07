@@ -39,7 +39,7 @@ class MessageHandler:
             json.dump({
                 "messages" : self.sturctured_messages,
                 "total_token_usage" : self.total_token_usage
-                }, file, indent=4)
+                }, file, indent=4, ensure_ascii=False)
         return
 
     def get_answer(self):

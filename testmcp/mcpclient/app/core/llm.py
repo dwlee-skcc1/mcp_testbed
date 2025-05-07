@@ -16,7 +16,7 @@ def get_model():
         api_key=os.getenv("OPENAI_API_KEY"),
         n=1,
         temperature=0,
-        max_tokens=500,
+        max_tokens=4000,
         model=os.getenv("OPENAI_MODEL"),
         verbose=True,
         streaming=False,
