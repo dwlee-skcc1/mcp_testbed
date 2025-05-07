@@ -67,7 +67,6 @@ class RfqDraftService:
 
         # 응답 생성
         responses = await self._generate_responses(state, graph) #state 객체로 나옴 
-
         return {"answer" : str(responses["answer"])}
     
     def _initialize_chat_state( 
@@ -99,82 +98,10 @@ class RfqDraftService:
         for tool in available_tools:
             available_tools_str += f"{tool['name']} : {tool['description']}\n"
 
-        output_format = """{
-        "title": "RfqDraftResponse",
-        "type": "object",
-        "properties": {
-            "steps": {
-            "title": "Steps",
-            "type": "array",
-            "description": "List of steps",
-            "items": {
-                "title": "RfqDraftStep",
-                "type": "object",
-                "properties": {
-                "id": {
-                    "title": "Id",
-                    "description": "The order of the step",
-                    "type": "integer"
-                },
-                "name": {
-                    "title": "Name",
-                    "description": "Name of the step",
-                    "type": "string"
-                },
-                "description": {
-                    "title": "Description",
-                    "description": "Description of the step",
-                    "type": "string"
-                },
-                "actions": {
-                    "title": "Actions",
-                    "description": "List of actions",
-                    "type": "array",
-                    "items": {
-                    "title": "RfqDraftAction",
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                        "title": "Id",
-                        "description": "The order of the action",
-                        "type": "integer"
-                        },
-                        "name": {
-                        "title": "Name",
-                        "description": "Name of the action",
-                        "type": "string"
-                        },
-                        "description": {
-                        "title": "Description",
-                        "description": "Description of the action",
-                        "type": "string"
-                        },
-                        "tool": {
-                        "title": "Tool",
-                        "description": "Tool to be used in the action",
-                        "type": "string"
-                        },
-                        "parameters": {
-                        "title": "Parameters",
-                        "description": "Parameters of the tool",
-                        "type": "object"
-                        }
-                    },
-                    "required": ["id", "name", "description", "tool"]
-                    }
-                }
-                },
-                "required": ["id", "name", "description", "actions"]
-            }
-            }
-        },
-        "required": ["steps"]
-        }"""
-        prompt = f"""아래 문서의 내용을 절차지향적으로 정리하고, 제공된 함수들을 최대한 활용할 수 있는 step-action 구조를 json 형태의 structured output으로 출력해주세요.
+        prompt = f"""아래 문서의 내용을 절차지향적으로 정리하고, 제공된 함수들을 최대한 활용할 수 있는 step-action 구조로 작성해줘.
         문서경로: {file_path}
         제공된 함수들: {available_tools_str}
         사용자 질문: {user_query}
-        출력 예시: {output_format}
         """
         return prompt
         
