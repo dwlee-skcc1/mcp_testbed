@@ -189,7 +189,7 @@ def fix_sql_query(llm, db_schema, query, sql_query, error_info):
         return sql_query
 
 
-def search_rdb(query: str) -> list[TextContent]:
+def search_rdb_main(query: str) -> list[TextContent]:
     """
     Search the relational database using natural language query.
     
@@ -274,6 +274,7 @@ def search_rdb(query: str) -> list[TextContent]:
                 
         except Error as e:
             # Try to fix SQL if there's an error
+            conn.rollback()
             logger.error(f"SQL execution error: {str(e)}")
             
             for attempt in range(3):
