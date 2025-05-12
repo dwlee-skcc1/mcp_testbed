@@ -1,0 +1,16 @@
+faiss-cpu==1.10.0
+fastapi==0.115.12
+fastmcp==2.3.3
+python-dotenv
+
+markitdown[all]
+
+# LangChain 관련 패키지
+langchain==0.3.18
+langchain-core==0.3.51
+langchain-community==0.3.17
+langchain-openai==0.3.4
+langsmith==0.3.8
+langgraph==0.2.70
+langgraph-checkpoint==2.0.12
+langfuse
