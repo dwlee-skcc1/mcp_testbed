@@ -3,7 +3,7 @@ import uvicorn, os
 from pathlib import Path
 from dotenv import load_dotenv
 
-from router import sample_api
+from router import sample_api, document_api
 
 app = FastAPI()
 
@@ -17,6 +17,7 @@ tool_port = int(os.getenv("TOOL_PORT"))
 
 
 app.include_router(sample_api.router, prefix="/sample", tags=["sample"])
+app.include_router(document_api.router, prefix="/document", tags=["document"])
 
 @app.get("/")
 def home():

@@ -15,7 +15,7 @@ load_dotenv(ENV_FILE, override=True)
 client_port = int(os.getenv("CLIENT_PORT"))
 tool_port = int(os.getenv("TOOL_PORT"))
 
-tool_dir = Path(__file__).resolve().parent.parent / "tool" 
+tool_dir = Path(__file__).resolve().parent.parent / "tools" 
 
 
 
@@ -44,6 +44,25 @@ async def chat_sse_test(request:OpenAIRequest):
 
 ### 아래 api는 모두 테스트 중
 
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+import json
+from langchain_mcp_adapters.tools import load_mcp_tools
+
+server_params = StdioServerParameters(
+    command="python",
+    args = json.load(open(os.path.join(tool_dir, "tools.json"), "r", encoding="utf-8"))["stdio"]["args"]
+)
+
+@router.post("/connect_direct_stdio")
+async def connect_direct_stdio():
+    async with stdio_client(server_params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tools = await load_mcp_tools(session)
+    return {"answer" : str(tools)}
+
+
 @router.post("/connect_stdio")
 async def connect_stdio():
     """
@@ -55,7 +74,7 @@ async def connect_stdio():
 
 
 
-@router.get("/chat_stdio")
+@router.get("/chat_stdio", response_model=SampleResponse)
 async def chat_stdio(request:OpenAIRequest):
     """
     STDIO test connection to "test" tool
