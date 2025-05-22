@@ -26,12 +26,45 @@ class MessageHandler:
                     "token_usage" : msg.usage_metadata["total_tokens"]
                     })
                 self.total_token_usage += int(msg.usage_metadata["total_tokens"])
+            # elif isinstance(msg, ToolMessage):
+            #     self.sturctured_messages.append({
+            #         "type":"tool",
+            #         "content":msg.content,
+            #         "name":msg.name
+            #     })
+            
             elif isinstance(msg, ToolMessage):
-                self.sturctured_messages.append({
-                    "type":"tool",
-                    "content":msg.content,
-                    "name":msg.name
-                })
+                # try:
+                #     # JSON 문자열을 파이썬 객체로 디코딩
+                #     tool_content = json.loads(msg.content)
+                try:
+                    # 먼저 content가 문자열인지 확인
+                    if isinstance(msg.content, str):
+                        # 문자열이면 JSON으로 파싱 시도
+                        tool_content = json.loads(msg.content)
+                    else:
+                        # 이미 리스트나 딕셔너리 등의 객체인 경우 그대로 사용
+                        tool_content = msg.content
+                            
+                    if isinstance(tool_content, dict):
+                        # 파일 경로의 백슬래시 처리
+                        if 'file_path' in tool_content:
+                            tool_content['file_path'] = tool_content['file_path'].replace('\\\\', '\\')
+                        if 'file_name' in tool_content:
+                            tool_content['file_name'] = tool_content['file_name'].replace('\\\\', '\\')
+                    
+                    self.sturctured_messages.append({
+                        "type": "tool",
+                        "content": tool_content,  # 디코딩된 JSON 객체
+                        "name": msg.name
+                    })
+                except json.JSONDecodeError:
+                    # JSON 디코딩 실패 시 원본 문자열 사용
+                    self.sturctured_messages.append({
+                        "type": "tool",
+                        "content": msg.content,
+                        "name": msg.name
+                    })
 
     def save_as_json(self):
         file_path = os.path.join(Path(__file__).absolute().parent.parent, "logs", "reponse_%s.json"%(datetime.now().strftime("%y%m%d%H%M%S")))

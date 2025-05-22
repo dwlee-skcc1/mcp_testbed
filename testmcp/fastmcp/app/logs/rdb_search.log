@@ -1,0 +1,439 @@
+2025-04-25 13:09:27,674 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 09:29:50,549 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 09:51:25,494 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 09:53:10,549 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 09:53:53,806 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 10:03:32,016 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 10:08:08,665 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-28 10:08:40,092 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:08:52,864 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:09:46,747 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:21:52,459 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:22:31,730 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:22:44,191 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:25:58,447 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:30:46,745 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:30:46,968 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:30:48,015 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 14:31:28,053 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:31:28,273 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:31:29,027 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 14:40:22,733 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:40:22,950 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:40:23,914 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 14:40:23,914 - rdb_search_tool - INFO - Processing RDB search query: 장비명 = '열교환기' AND 요청자 = '홍성국'
+2025-04-29 14:40:24,438 - rdb_search_tool - WARNING - No tables found in the database
+2025-04-29 14:40:24,438 - rdb_search_tool - INFO - Database schema retrieved successfully:
+No tables found in the database schema.
+2025-04-29 14:40:24,438 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 14:40:25,487 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:40:25,496 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM your_table_name WHERE 장비명 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:40:25,499 - rdb_search_tool - ERROR - SQL execution error: relation "your_table_name" does not exist
+LINE 1: SELECT * FROM your_table_name WHERE 장비명 = '열교환기' AND ...
+                      ^
+
+2025-04-29 14:40:25,500 - rdb_search_tool - INFO - SQL error occurred, attempting fix #1
+2025-04-29 14:40:26,195 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:40:26,197 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM your_table_name WHERE "장비명" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:40:26,197 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM your_table_name WHERE "장비명" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:40:26,199 - rdb_search_tool - ERROR - Error after fix attempt #1: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 14:40:26,200 - rdb_search_tool - INFO - SQL error occurred, attempting fix #2
+2025-04-29 14:40:27,111 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:40:27,112 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "your_table_name" WHERE "장비명" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:40:27,113 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM "your_table_name" WHERE "장비명" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:40:27,115 - rdb_search_tool - ERROR - Error after fix attempt #2: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 14:40:27,116 - rdb_search_tool - INFO - SQL error occurred, attempting fix #3
+2025-04-29 14:40:27,953 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:40:27,955 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "your_table_name" WHERE "장비명" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:40:27,955 - rdb_search_tool - WARNING - No changes made to SQL query after fix attempt
+2025-04-29 14:40:27,956 - rdb_search_tool - INFO - Database connection closed
+2025-04-29 14:56:37,551 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:56:37,782 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:56:38,962 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 14:56:38,963 - rdb_search_tool - INFO - Processing RDB search query: 장비명 = '열교환기' AND 요청자 = '홍성국'
+2025-04-29 14:56:39,506 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: newtable
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-04-29 14:56:39,510 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 14:56:40,517 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:56:40,524 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM newtable WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:56:40,527 - rdb_search_tool - ERROR - SQL execution error: relation "newtable" does not exist
+LINE 1: SELECT * FROM newtable WHERE 제목 = '열교환기' AND 요청자 = ...
+                      ^
+
+2025-04-29 14:56:40,528 - rdb_search_tool - INFO - SQL error occurred, attempting fix #1
+2025-04-29 14:56:41,137 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:56:41,138 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "newtable" WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:56:41,139 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM "newtable" WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:56:41,141 - rdb_search_tool - ERROR - Error after fix attempt #1: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 14:56:41,142 - rdb_search_tool - INFO - SQL error occurred, attempting fix #2
+2025-04-29 14:56:41,903 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:56:41,905 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "newtable" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:56:41,905 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM "newtable" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:56:41,908 - rdb_search_tool - ERROR - Error after fix attempt #2: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 14:56:41,908 - rdb_search_tool - INFO - SQL error occurred, attempting fix #3
+2025-04-29 14:56:42,742 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:56:42,744 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "newtable" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:56:42,744 - rdb_search_tool - WARNING - No changes made to SQL query after fix attempt
+2025-04-29 14:56:42,745 - rdb_search_tool - INFO - Database connection closed
+2025-04-29 14:58:46,196 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:58:46,421 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 14:58:47,412 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 14:58:47,412 - rdb_search_tool - INFO - Processing RDB search query: 장비명 = '열교환기' AND 요청자 = '홍성국'
+2025-04-29 14:58:47,884 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-04-29 14:58:47,887 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 14:58:48,549 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:58:48,551 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM rfq_search WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:58:48,554 - rdb_search_tool - ERROR - SQL execution error: relation "rfq_search" does not exist
+LINE 1: SELECT * FROM rfq_search WHERE 제목 = '열교환기' AND 요청자 ...
+                      ^
+
+2025-04-29 14:58:48,554 - rdb_search_tool - INFO - SQL error occurred, attempting fix #1
+2025-04-29 14:58:49,258 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:58:49,260 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "rfq_search" WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:58:49,260 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM "rfq_search" WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 14:58:49,262 - rdb_search_tool - ERROR - Error after fix attempt #1: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 14:58:49,263 - rdb_search_tool - INFO - SQL error occurred, attempting fix #2
+2025-04-29 14:58:50,009 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:58:50,011 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "rfq_search" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:58:50,011 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM "rfq_search" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:58:50,013 - rdb_search_tool - ERROR - Error after fix attempt #2: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 14:58:50,014 - rdb_search_tool - INFO - SQL error occurred, attempting fix #3
+2025-04-29 14:58:50,838 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 14:58:50,840 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "rfq_search" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 14:58:50,840 - rdb_search_tool - WARNING - No changes made to SQL query after fix attempt
+2025-04-29 14:58:50,841 - rdb_search_tool - INFO - Database connection closed
+2025-04-29 15:08:57,562 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:08:57,790 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:08:58,922 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 15:08:58,922 - rdb_search_tool - INFO - Processing RDB search query: 장비명 = '열교환기' AND 요청자 = '홍성국'
+2025-04-29 15:08:59,505 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-04-29 15:08:59,508 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 15:09:00,460 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 15:09:00,470 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM rfq_search WHERE 제목 = '열교환기' AND 요청자 = '홍성국';
+2025-04-29 15:09:00,472 - rdb_search_tool - ERROR - SQL execution error: relation "rfq_search" does not exist
+LINE 1: SELECT * FROM rfq_search WHERE 제목 = '열교환기' AND 요청자 ...
+                      ^
+
+2025-04-29 15:09:00,472 - rdb_search_tool - INFO - SQL error occurred, attempting fix #1
+2025-04-29 15:09:01,315 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 15:09:01,317 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "rfq_search" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 15:09:01,318 - rdb_search_tool - INFO - SQL query modified: SELECT * FROM "rfq_search" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 15:09:01,320 - rdb_search_tool - ERROR - Error after fix attempt #1: current transaction is aborted, commands ignored until end of transaction block
+
+2025-04-29 15:09:01,320 - rdb_search_tool - INFO - SQL error occurred, attempting fix #2
+2025-04-29 15:09:02,138 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 15:09:02,140 - rdb_search_tool - INFO - SQL query fixed: SELECT * FROM "rfq_search" WHERE "제목" = '열교환기' AND "요청자" = '홍성국';
+2025-04-29 15:09:02,140 - rdb_search_tool - WARNING - No changes made to SQL query after fix attempt
+2025-04-29 15:09:02,141 - rdb_search_tool - INFO - Database connection closed
+2025-04-29 15:15:46,860 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:15:47,083 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:15:48,135 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 15:15:48,136 - rdb_search_tool - INFO - Processing RDB search query: 구매 사양에 열교환기가 포함된 데이터
+2025-04-29 15:15:48,665 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: ocean_h.rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-04-29 15:15:48,668 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 15:15:49,811 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 15:15:49,819 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM ocean_h.rfq_search WHERE "구매 사양" LIKE '%열교환기%';
+2025-04-29 15:15:49,822 - rdb_search_tool - INFO - Database connection closed
+2025-04-29 15:18:12,372 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:18:12,599 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:18:13,851 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 15:18:13,851 - rdb_search_tool - INFO - Processing RDB search query: 구매 사양에 열교환기가 포함된 데이터
+2025-04-29 15:18:14,329 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: ocean_h.rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-04-29 15:18:14,333 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 15:18:15,054 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 15:18:15,056 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM ocean_h.rfq_search WHERE "구매 사양" LIKE '%열교환기%';
+2025-04-29 15:18:15,058 - rdb_search_tool - INFO - Database connection closed
+2025-04-29 15:19:41,900 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:19:42,140 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-04-29 15:19:43,210 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-04-29 15:19:43,210 - rdb_search_tool - INFO - Processing RDB search query: 구매 사양에 열교환기가 포함된 데이터
+2025-04-29 15:19:43,688 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: ocean_h.rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-04-29 15:19:43,692 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-04-29 15:19:44,505 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-04-29 15:19:44,507 - rdb_search_tool - INFO - Generated SQL query: SELECT * FROM ocean_h.rfq_search WHERE "구매 사양" LIKE '%열교환기%';
+2025-04-29 15:19:44,510 - rdb_search_tool - INFO - Database connection closed
+2025-05-09 08:51:32,664 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 08:51:33,019 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 08:51:34,303 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 08:51:35,502 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 08:51:36,570 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 08:57:49,116 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 08:57:49,508 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 08:57:50,611 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 08:57:51,573 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 08:57:52,683 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:00:55,283 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:00:55,777 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:00:56,717 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:00:57,450 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:00:58,541 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:01:38,492 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:01:38,756 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:01:39,691 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:01:40,382 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:01:41,628 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:04:36,251 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:04:36,538 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:04:37,709 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:04:40,867 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:04:42,469 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:06:18,228 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:06:18,540 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:06:19,451 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:06:20,380 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:06:21,867 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:08:07,205 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:08:07,467 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:08:08,796 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:08:09,683 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:08:10,984 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:10:25,558 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:10:25,865 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:10:28,750 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:10:29,432 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:10:30,486 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:18:34,422 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:18:34,711 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:18:35,904 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:18:36,719 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:18:37,785 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:21:47,883 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:21:48,297 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:21:49,577 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:21:49,577 - rdb_search_tool - INFO - Processing RDB search query: RFQ 키워드를 포함한 문서들의 mnro 컬럼 값
+2025-05-09 09:21:50,375 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: ocean_h.rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-05-09 09:21:50,378 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-05-09 09:21:51,979 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:21:51,990 - rdb_search_tool - INFO - Generated SQL query: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE 제목 ILIKE '%RFQ%';
+2025-05-09 09:21:51,994 - rdb_search_tool - INFO - Database connection closed
+2025-05-09 09:22:33,390 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:22:33,676 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:22:34,529 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:22:34,529 - rdb_search_tool - INFO - Processing RDB search query: 구매사양에 '열교환기' 키워드를 포함한 문서들의 mnro 값을 반환
+2025-05-09 09:22:35,155 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: ocean_h.rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-05-09 09:22:35,160 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-05-09 09:22:35,877 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:22:35,878 - rdb_search_tool - INFO - Generated SQL query: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE 구매 사양 LIKE '%열교환기%';
+2025-05-09 09:22:35,881 - rdb_search_tool - ERROR - SQL execution error: syntax error at or near "사양"
+LINE 3: WHERE 구매 사양 LIKE '%열교환기%';
+                   ^
+
+2025-05-09 09:22:35,882 - rdb_search_tool - INFO - SQL error occurred, attempting fix #1
+2025-05-09 09:22:36,593 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:22:36,595 - rdb_search_tool - INFO - SQL query fixed: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE "구매 사양" LIKE '%열교환기%';
+2025-05-09 09:22:36,596 - rdb_search_tool - INFO - SQL query modified: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE "구매 사양" LIKE '%열교환기%';
+2025-05-09 09:22:36,601 - rdb_search_tool - ERROR - Error after fix attempt #1: current transaction is aborted, commands ignored until end of transaction block
+
+2025-05-09 09:22:36,602 - rdb_search_tool - INFO - SQL error occurred, attempting fix #2
+2025-05-09 09:22:37,309 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:22:37,310 - rdb_search_tool - INFO - SQL query fixed: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE "구매 사양" LIKE '%열교환기%';
+2025-05-09 09:22:37,311 - rdb_search_tool - WARNING - No changes made to SQL query after fix attempt
+2025-05-09 09:22:37,312 - rdb_search_tool - INFO - Database connection closed
+2025-05-09 09:27:47,990 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:27:48,274 - mcp.server.lowlevel.server - INFO - Processing request of type ListToolsRequest
+2025-05-09 09:27:49,546 - mcp.server.lowlevel.server - INFO - Processing request of type CallToolRequest
+2025-05-09 09:27:49,547 - rdb_search_tool - INFO - Processing RDB search query: 구매사양에 '열교환기' 키워드를 포함한 문서들의 mnro 값을 반환해줘
+2025-05-09 09:27:50,231 - rdb_search_tool - INFO - Database schema retrieved successfully:
+Table: ocean_h.rfq_search
+Columns:
+  - 작성일자: integer
+  - pm소속: character varying
+  - 제목: character varying
+  - 요청자: character varying
+  - 요청부서: character varying
+  - RFQ 작성자: character varying
+  - RFQ 작성부서: character varying
+  - AFE No.: character varying
+  - 사업명: character varying
+  - 법인: character varying
+  - plant: character varying
+  - planner: character varying
+  - 용도/비고: character varying
+  - mnro: character varying
+  - 구매 사양: character varying
+
+2025-05-09 09:27:50,235 - rdb_search_tool - INFO - Calling LLM to generate SQL query
+2025-05-09 09:27:50,999 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:27:51,001 - rdb_search_tool - INFO - Generated SQL query: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE 구매 사양 LIKE '%열교환기%';
+2025-05-09 09:27:51,005 - rdb_search_tool - ERROR - SQL execution error: syntax error at or near "사양"
+LINE 3: WHERE 구매 사양 LIKE '%열교환기%';
+                   ^
+
+2025-05-09 09:27:51,006 - rdb_search_tool - INFO - SQL error occurred, attempting fix #1
+2025-05-09 09:27:51,691 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:27:51,693 - rdb_search_tool - INFO - SQL query fixed: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE "구매 사양" LIKE '%열교환기%';
+2025-05-09 09:27:51,693 - rdb_search_tool - INFO - SQL query modified: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE "구매 사양" LIKE '%열교환기%';
+2025-05-09 09:27:51,695 - rdb_search_tool - ERROR - Error after fix attempt #1: current transaction is aborted, commands ignored until end of transaction block
+
+2025-05-09 09:27:51,696 - rdb_search_tool - INFO - SQL error occurred, attempting fix #2
+2025-05-09 09:27:52,382 - httpx - INFO - HTTP Request: POST https://report-tf-openai-jp.openai.azure.com/openai/deployments/lkm-gpt-4o-mini/chat/completions?api-version=2025-01-01-preview "HTTP/1.1 200 OK"
+2025-05-09 09:27:52,383 - rdb_search_tool - INFO - SQL query fixed: SELECT mnro 
+FROM ocean_h.rfq_search 
+WHERE "구매 사양" LIKE '%열교환기%';
+2025-05-09 09:27:52,384 - rdb_search_tool - WARNING - No changes made to SQL query after fix attempt
+2025-05-09 09:27:52,385 - rdb_search_tool - INFO - Database connection closed

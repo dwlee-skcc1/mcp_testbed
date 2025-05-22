@@ -17,7 +17,7 @@ class SampleService:
             if msg["role"] == "user":
                 converted_messages.append(HumanMessage(content=msg["content"]))
             elif msg["role"] == "assistant":
-                last_agent_response = msg["content"].split("**:")[-1]
+                # last_agent_response = msg["content"].split("**:")[-1]
                 converted_messages.append(AIMessage(content=last_agent_response))
             elif msg["role"] == "system":
                 converted_messages.append(SystemMessage(content=msg["content"]))
@@ -52,7 +52,9 @@ class SampleService:
             Dict: 응답 데이터
         """
         messages = request.messages
-        messages.insert(0, {"role": "system", "content": "You are a helpful assistant."})
+        # messages.insert(0, {"role": "system", "content": "You are a helpful assistant."})
+        messages.insert(0, {"role": "system", "content": "You are an assistant dedicated to reporting the exact results of function executions. Your primary task is to communicate the precise output without adding, interpreting, or modifying the information. Provide a clear, direct translation of the function's return values."})
+
         
         # OPENAI to Langchain 변환
         messages = self.convert_openai_messages_to_langchain(messages)
